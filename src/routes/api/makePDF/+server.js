@@ -1,4 +1,5 @@
 import { PRINT_FRIENDLY_API_KEY } from '$env/static/private';
+import { json } from '@sveltejs/kit';
 
 export async function POST({ request }) {
 	const { html } = await request.json();
@@ -19,7 +20,7 @@ export async function POST({ request }) {
 
 		if (data.status === 'success') {
 			console.log('PDF generated:', data.file_url);
-			return { status: 'success', pdfUrl: data.file_url };
+			return json({ status: 'success', file_url: data.file_url });
 		} else {
 			console.error('Failed to generate PDF');
 			return { status: 500, message: 'Failed to generate PDF' };
