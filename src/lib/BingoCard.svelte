@@ -3,19 +3,15 @@
 
 	// Create a new array for the bingo card with "Free" in the middle
 	let bingoCard = [];
-	const middleIndex = 12; // Index for the middle of a 5x5 grid
 
 	$: {
 		bingoCard = [...songs];
-		if (bingoCard.length >= middleIndex) {
-			bingoCard.splice(middleIndex, 0, 'Free');
-		}
 	}
 </script>
 
 <div class="bingo-card">
 	{#each bingoCard as song}
-		<div class="bingo-cell" style="font-size: calc(10px + 1vw);">
+		<div class="bingo-cell">
 			{song}
 		</div>
 	{/each}
@@ -35,9 +31,10 @@
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
-		height: 1.5in;
-		width: 1.5in;
+		height: 150px;
+		width: 150px;
 		text-align: center;
+		font-size: 12pt;
 		padding: 4px;
 		border: 1px solid black;
 	}
