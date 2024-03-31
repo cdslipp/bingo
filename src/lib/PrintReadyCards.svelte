@@ -7,13 +7,13 @@
 	<div class="paper-sheet">
 		<h1>{bingoTitle}</h1>
 		<div class="bingo-card">
-			{#each bingoCard as song}
+			{#each bingoCard as { song, fontSize }}
 				{#if song === 'FREE'}
 					<div class="bingo-cell" style="font-weight: bolder; font-size: 32px;">
 						{song}
 					</div>
 				{:else}
-					<div class="bingo-cell">
+					<div class="bingo-cell" style="font-size: var(--{fontSize});">
 						{song}
 					</div>
 				{/if}
@@ -23,6 +23,12 @@
 {/each}
 
 <style>
+	:root {
+		--small: 20px;
+		--medium: 24px;
+		--large: 27px;
+		--x-large: 34px;
+	}
 	.paper-sheet {
 		display: flex;
 		flex-direction: column;
@@ -45,8 +51,9 @@
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
-		height: 1.5in;
-		width: 1.5in;
+		height: 1.55in;
+		width: 1.55in;
+		padding: 6px;
 		text-align: center;
 		border-top: 1px solid black; /* Add top border to all cells */
 		border-left: 1px solid black; /* Add left border to all cells */

@@ -10,8 +10,8 @@
 </script>
 
 <div class="bingo-card">
-	{#each bingoCard as song}
-		<div class="bingo-cell">
+	{#each songs as { song, fontSize }}
+		<div class="bingo-cell" style="font-size: var(--{fontSize});">
 			{song}
 		</div>
 	{/each}
