@@ -125,6 +125,7 @@
 			<input type="number" bind:value={numberOfCards} />
 			<h3>Upload CSV</h3>
 			<input type="file" on:change={readFile} accept=".csv" />
+			<button on:click={() => window.print()}>Print</button>
 			<button
 				on:click={generatePDF}
 				aria-busy={isLoading ? 'true' : 'false'}
@@ -157,6 +158,16 @@
 		</PaperSheet>
 	</div>
 </div>
+<div id="printArea" class="print-area">
+	{#each bingoCards as bingoCard}
+		<div class="paper-sheet">
+			<h1>{bingoTitle}</h1>
+			<div class="bingo-card">
+				<BingoCard songs={bingoCard} />
+			</div>
+		</div>
+	{/each}
+</div>
 
 <style>
 	.wrapper {
@@ -171,5 +182,32 @@
 
 	.content {
 		/* Styles for the content area */
+	}
+
+	.print-area {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.paper-sheet {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 8in;
+		height: 10in;
+		margin: 0;
+		page-break-after: always;
+	}
+
+	@media print {
+		.print-area,
+		.print-area * {
+			display: flex;
+		}
+
+		.wrapper {
+			display: none;
+		}
 	}
 </style>
