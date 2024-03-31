@@ -1,6 +1,7 @@
 <script>
 	import BingoCard from '$lib/BingoCard.svelte';
 	import PaperSheet from '$lib/PaperSheet.svelte';
+	import PrintReadyCards from '$lib/PrintReadyCards.svelte';
 	import { generateBingoCards } from '$lib/generateBingoCards';
 
 	let csvFile = $state(null);
@@ -39,74 +40,6 @@
 		}
 	}
 
-	async function generatePDF() {
-		isLoading = true;
-		const allCardsStyledHTML = bingoCards.map(generateBingoCardHTML).join('');
-
-		const response = await fetch('/api/makePDF', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ html: allCardsStyledHTML })
-		});
-
-		const data = await response.json();
-
-		if (data.status === 'success') {
-			console.log('PDF generated:', data.file_url);
-			pdfUrl = data.file_url;
-		} else {
-			console.error('Failed to generate PDF:', data.message);
-		}
-		isLoading = false;
-	}
-
-	function generateBingoCardHTML(bingoCard) {
-		const bingoCardHTML = bingoCard
-			.map(
-				(song) => `<div class="bingo-cell" style="
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			overflow: hidden;
-			height: 1.5in;
-			width: 1.5in;
-			text-align: center;
-			padding: 4px;
-			border: 1px solid black;">${song}</div>`
-			)
-			.join('');
-
-		return `
-        <div class="paper-sheet" style="display: flex; flex-direction: column; align-items: center; width: 8in; height: 10in; margin: 0;page-break-after: always">
-        <h1>${bingoTitle}</h1>
-        <div class="bingo-card" style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 1fr); gap: 2px; width: 100%; height: 100%;">
-                ${bingoCardHTML}
-            </div>
-        </div>
-    `;
-	}
-
-	function getStyledHTML() {
-		const hiddenPrintArea = document.getElementById('hiddenPrintArea');
-		let styledHTML = '';
-
-		hiddenPrintArea.querySelectorAll('.paper-sheet').forEach((sheet) => {
-			const computedStyle = getComputedStyle(sheet);
-			let inlineStyle = '';
-
-			for (let property of computedStyle) {
-				inlineStyle += `${property}:${computedStyle.getPropertyValue(property)};`;
-			}
-
-			styledHTML += `<div class="paper-sheet" style="${inlineStyle}">${sheet.innerHTML}</div>`;
-		});
-
-		console.log(styledHTML);
-		return styledHTML;
-	}
-
 	$effect(() => {
 		if (csvFile) {
 			console.log('generating bingo card');
@@ -126,20 +59,6 @@
 			<h3>Upload CSV</h3>
 			<input type="file" on:change={readFile} accept=".csv" />
 			<button on:click={() => window.print()}>Print</button>
-			<button
-				on:click={generatePDF}
-				aria-busy={isLoading ? 'true' : 'false'}
-				aria-label={isLoading ? 'Please wait…' : 'Generate PDF'}
-			>
-				{#if isLoading}
-					Please wait…
-				{:else}
-					Generate PDF
-				{/if}
-			</button>
-			{#if pdfUrl}
-				<a href={pdfUrl} download>Download PDF</a>
-			{/if}
 		</article>
 	</div>
 	<div class="content">
@@ -159,14 +78,7 @@
 	</div>
 </div>
 <div id="printArea" class="print-area">
-	{#each bingoCards as bingoCard}
-		<div class="paper-sheet">
-			<h1>{bingoTitle}</h1>
-			<div class="bingo-card">
-				<BingoCard songs={bingoCard} />
-			</div>
-		</div>
-	{/each}
+	<PrintReadyCards {bingoTitle} {bingoCards} />
 </div>
 
 <style>
@@ -188,16 +100,6 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-	}
-
-	.paper-sheet {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		width: 8in;
-		height: 10in;
-		margin: 0;
-		page-break-after: always;
 	}
 
 	@media print {
