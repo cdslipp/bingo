@@ -40,6 +40,7 @@
 	}
 
 	$effect(() => {
+		console.log(numberOfCards);
 		if (csvFile) {
 			console.log('generating bingo card');
 			bingoCards = generateBingoCards(csvFile, numberOfCards);
@@ -56,13 +57,13 @@
 			<h1>Bingo Maker</h1>
 			<h3>Title your bingo</h3>
 			<input type="text" bind:value={bingoTitle} />
+			<h3>How many bingo cards would you like to generate?</h3>
+			<input type="number" bind:value={numberOfCards} />
 			<h3>Upload CSV</h3>
 			<input type="file" on:change={readFile} accept=".csv" />
 			{#if uniqueSongCount > 0}
 				<p>You have submitted {uniqueSongCount} songs.</p>
 			{/if}
-			<h3>How many bingo cards would you like to generate?</h3>
-			<input type="number" bind:value={numberOfCards} />
 			<button on:click={() => window.print()}>Print</button>
 		</article>
 	</div>
