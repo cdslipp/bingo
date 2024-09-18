@@ -1,19 +1,35 @@
 <script>
-	export let bingoTitle = 'Bingo Card';
-	export let bingoCards = [];
+	let {
+		bingoTitle = 'Bingo Card',
+		bingoCards,
+		fontFamily = 'sans-serif',
+		baseFontSize = 16
+	} = $props();
+
+	function adjustedFontSize(size) {
+		let scale = 1;
+		if (size === 'small') scale = 0.8;
+		else if (size === 'medium') scale = 1;
+		else if (size === 'large') scale = 1.2;
+		else if (size === 'x-large') scale = 1.4;
+		return `${baseFontSize * scale}px`;
+	}
 </script>
 
 {#each bingoCards as bingoCard}
-	<div class="paper-sheet">
+	<div class="paper-sheet" style="font-family: {fontFamily};">
 		<h1>{bingoTitle}</h1>
 		<div class="bingo-card">
 			{#each bingoCard as { song, fontSize }}
 				{#if song === 'FREE'}
-					<div class="bingo-cell" style="font-weight: bolder; font-size: 32px;">
+					<div
+						class="bingo-cell"
+						style="font-weight: bolder; font-size: {adjustedFontSize('x-large')};"
+					>
 						{song}
 					</div>
 				{:else}
-					<div class="bingo-cell" style="font-size: var(--{fontSize});">
+					<div class="bingo-cell" style="font-size: {adjustedFontSize(fontSize)};">
 						{song}
 					</div>
 				{/if}
@@ -28,6 +44,9 @@
 		--medium: 24px;
 		--large: 27px;
 		--x-large: 34px;
+	}
+	div {
+		font-family: inherit;
 	}
 	.paper-sheet {
 		display: flex;
