@@ -18,7 +18,7 @@
 
 {#each bingoCards as bingoCard}
 	<div class="paper-sheet" style="font-family: sans-serif;">
-		<h1>{bingoTitle}</h1>
+		<h1 style="font-family: {fontFamily};">{bingoTitle}</h1>
 		<div class="bingo-card">
 			{#each bingoCard as { song, fontSize }}
 				{#if song === 'FREE'}
