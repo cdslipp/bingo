@@ -23,6 +23,8 @@
 		if (font === 'Serif') return 'serif';
 		if (font === 'Sans Serif') return 'sans-serif';
 		if (font === 'Monospace') return '"American Typewriter", Courier, monospace';
+		if (font === 'Creepster') return 'Creepster, cursive'; // Add this
+		if (font === 'Nosifer') return 'Nosifer, cursive'; // Add this
 		return 'sans-serif'; // Default fallback
 	}
 
@@ -135,6 +137,8 @@
 </div>
 
 <style>
+	@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&display=swap');
+
 	.wrapper {
 		display: grid;
 		grid-template-columns: 2fr 2fr;
