@@ -88,7 +88,7 @@
 <div class="wrapper">
 	<div class="sidebar pico">
 		<article>
-			<h1>Bingo Maker</h1>
+			<h1>🎃 Bingo Maker 🧛🏻‍♂️</h1>
 			<p>Current Card Index: {currentCardIndex}</p>
 			<h3>Title your bingo</h3>
 			<input type="text" bind:value={bingoTitle} />
@@ -99,6 +99,8 @@
 				<option value="Serif">Serif</option>
 				<option value="Sans Serif">Sans Serif</option>
 				<option value="Monospace">Monospace</option>
+				<option value="Creepster">Creepster</option>
+				<option value="Nosifer">Nosifer</option>
 			</select>
 			<h3>Adjust Font Size</h3>
 			<div>
