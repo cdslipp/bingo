@@ -11,7 +11,7 @@
 	}
 </script>
 
-<div class="bingo-card" style="font-family: {fontFamily};">
+<div class="bingo-card" style="font-family: sans-serif;">
 	{#each songs as { song, fontSize }}
 		<div class="bingo-cell" style="font-size: {adjustedFontSize(fontSize)};">
 			{song}
